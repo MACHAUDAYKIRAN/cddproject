@@ -1,31 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Products</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <h1>List of Products</h1>
+    <h1>All Products List</h1>
     <table border="1">
-        <thead>
-            <tr>
-                <th>Product Name</th>
-                <th>Product Type</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for product in products %}
-            <tr>
-                <td>{{ product.product_name }}</td>
-                <td>{{ product.product_type }}</td>
-                <td>{{ product.price }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
+        <tr>
+            <th>Product Name</th>
+            <th>Product Type</th>
+            <th>Price</th>
+        </tr>
+        {% for product in products %}
+        <tr>
+            <td>{{ product[1] }}</td>
+            <td>{{ product[2] }}</td>
+            <td>{{ product[3] }}</td>
+        </tr>
+        {% endfor %}
     </table>
     <br>
-    <a href="/add_product">Add New Product</a>
+    <a href="/">Back to Home</a>
 </body>
 </html>

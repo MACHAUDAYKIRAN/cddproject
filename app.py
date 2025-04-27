@@ -1,57 +1,56 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 import mysql.connector
 
 app = Flask(__name__)
 
-# Function to connect to the database
+# Database connection
 def get_db_connection():
-    connection = mysql.connector.connect(
-        host='localhost',
-        user='root',          # your MySQL username (usually root)
-        password='Uday@123',  # your MySQL password
-        database='agriculture_management'  # name of your database
+    conn = mysql.connector.connect(
+        host='localhost',  # Use localhost if running outside Docker
+        user='root',
+        password='Uday@123',
+        database='agriculture_management'
     )
-    return connection
+    return conn
 
-# Add product route
-@app.route('/add_product', methods=['GET', 'POST'])
+# Home route
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+# Add Product route
+@app.route('/add-product', methods=['GET', 'POST'])
 def add_product():
     if request.method == 'POST':
+        # Get form data from user
         product_name = request.form['product_name']
         product_type = request.form['product_type']
         price = request.form['price']
 
-        # Ensure price is a valid number
-        try:
-            price = float(price)
-        except ValueError:
-            return "Invalid price format, please enter a valid number."
-
-        connection = get_db_connection()
-        cursor = connection.cursor()
+        # Connect to the database and insert the new product
+        conn = get_db_connection()
+        cursor = conn.cursor()
         cursor.execute('INSERT INTO products (product_name, product_type, price) VALUES (%s, %s, %s)',
                        (product_name, product_type, price))
-        connection.commit()
+        conn.commit()
         cursor.close()
-        connection.close()
+        conn.close()
 
-        return redirect('/view_products')
+        # Redirect to the view products page
+        return redirect(url_for('view_products'))
 
     return render_template('add_product.html')
 
-@app.route('/')
-def home():
-    return render_template('home.html')
-
-# View products route
-@app.route('/view_products')
+# View Products route
+@app.route('/view-products')
 def view_products():
-    connection = get_db_connection()
-    cursor = connection.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM products")
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM products')
     products = cursor.fetchall()
     cursor.close()
-    connection.close()
+    conn.close()
+
     return render_template('view_products.html', products=products)
 
 if __name__ == '__main__':

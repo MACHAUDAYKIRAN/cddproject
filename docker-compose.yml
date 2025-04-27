@@ -1,0 +1,30 @@
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: cddproject-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: Uday@123
+      MYSQL_DATABASE: agriculture_management
+    ports:
+      - "5005:5005"
+    networks:
+      - backend_network
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  flask_app:
+    build: .
+    container_name: cddproject-flask_app
+    ports:
+      - "5000:5000"
+    networks:
+      - backend_network
+    depends_on:
+      - mysql
+
+networks:
+  backend_network:
+    driver: bridge
+
+volumes:
+  mysql_data:

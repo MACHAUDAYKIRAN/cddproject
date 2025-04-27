@@ -1,20 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Agriculture Management</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Agriculture Product Management - Home</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to Agriculture Management</h1>
-        <p>This platform allows you to manage agriculture products easily.</p>
-
-        <div class="options">
-            <a href="/add_product">Add a Product</a>
-            <a href="/view_products">View Products</a>
-        </div>
-    </div>
+    <h1>Welcome to Agriculture Product Management System</h1>
+    <a href="/add_product">Add New Product</a> |
+    <a href="/view_products">View Products</a>
 </body>
 </html>
